@@ -1,0 +1,34 @@
+﻿<Window x:Class="PresentationSPPP.WPF.Win_Home" x:Name="Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Win_Home" Height="600" Width="900" ResizeMode="CanResizeWithGrip"
+        Closed="Window_Closed">
+    <Grid Background="SteelBlue">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        
+        <Menu Grid.Column="1" Grid.Row="1">
+            <MenuItem Header="Catégories" Click="MenuItem_Categories_Click"/>
+            <!--<MenuItem Header="Extensions" Click="MenuItem_Extensions_Click"/>-->
+            <MenuItem Header="Sauvegarder" Click="MenuItem_Sauvegarder_Click"/>
+        </Menu>
+        
+        <TabControl Grid.Column="1" Grid.Row="3">
+            <TabItem Header="Gestions des documents " Content="{Binding UC_Documents}"/>
+            <TabItem Header="Gestions des versions  " Content="{Binding UC_Versions}"/>
+            <TabItem Header="Gestions des liens     " Content="{Binding UC_Liens}"/>
+            <TabItem Header="Gestions des carrousels" Content="{Binding UC_Carrousels}"/>
+        </TabControl>
+    </Grid>
+</Window>

@@ -1,0 +1,123 @@
+﻿<UserControl x:Class="PresentationSPPP.WPF.UC_Carrousels"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock" x:Key="TextBlock">
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Background" Value="SteelBlue"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style TargetType="TextBox" x:Key="TextBox">
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style TargetType="Button" x:Key="Button">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Background" Value="SteelBlue"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid Background="WhiteSmoke">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="75*"/>
+            <ColumnDefinition Width="1*"/>
+
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="05*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="05*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="90*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Style="{StaticResource TextBlock}" 
+                       Text="Liste des logigrammes"/>
+            <ComboBox x:Name="ComboBox_Categories" Grid.Row="2" VerticalAlignment="Center" 
+                      ItemsSource="{Binding Categories}"
+                      SelectedItem="{Binding CategorieSelected}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Nom}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ListBox x:Name="ListBox_Logigrams" Grid.Row="4" 
+                     ItemsSource="{Binding ElementName=ComboBox_Categories, Path=SelectedItem.Logigrammes, Mode=OneWay}"
+                     SelectedItem="{Binding LogigramSelected}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Nom}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+        <Grid Grid.Column="3" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="01*"/>
+                <ColumnDefinition Width="60*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="01*"/>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="01*"/>
+                <RowDefinition Height="20*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Column="0" Grid.Row="0" Style="{StaticResource TextBlock}" 
+                           Text="Catégorie du logigramme suivant"/>
+            <ComboBox x:Name="ComboBox_CategorieLogigrams" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" 
+                          ItemsSource="{Binding Categories}"
+                          SelectionChanged="ComboBox_CategorieLogigrams_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Nom}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBlock Grid.Column="0" Grid.Row="2" Style="{StaticResource TextBlock}" 
+                           Text="Logigramme suivant"/>
+            <ComboBox x:Name="ComboBox_Logigrams" Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" 
+                      ItemsSource="{Binding LogigrammesSuivantsPossibles}"
+                      SelectedItem="{Binding ElementName=ListBox_Logigrams, Path=SelectedItem.Next}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Nom}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBlock Grid.Column="0" Grid.Row="4" Style="{StaticResource TextBlock}" 
+                       Text="Logigramme précédant"/>
+            <TextBox Grid.Column="2" Grid.Row="4" Style="{StaticResource TextBox}" IsReadOnly="True"
+                     Text="{Binding ElementName=ListBox_Logigrams, Path=SelectedItem.Previous.Nom, Mode=OneWay}"/>
+        </Grid>
+    </Grid>
+</UserControl>

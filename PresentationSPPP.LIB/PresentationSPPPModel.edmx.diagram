@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="05670d0d99f44e1bb5433a64a8e669c9" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="PresentationSPPPModel.Categorie" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PresentationSPPPModel.Document" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PresentationSPPPModel.Extension" Width="1.5" PointX="1.25" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PresentationSPPPModel.Version" Width="1.5" PointX="1.25" PointY="4.25" IsExpanded="true" />
+        <AssociationConnector Association="PresentationSPPPModel.FK_Document_Categorie" ManuallyRouted="false" />
+        <AssociationConnector Association="PresentationSPPPModel.FK_Version_Document" ManuallyRouted="false" />
+        <AssociationConnector Association="PresentationSPPPModel.FK_Version_Extension" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PresentationSPPPModel.Lien" Width="1.5" PointX="5.25" PointY="5.125" />
+        <AssociationConnector Association="PresentationSPPPModel.FK_Lien_Document" />
+        <EntityTypeShape EntityType="PresentationSPPPModel.Logigram" Width="1.5" PointX="5.25" PointY="1.5" />
+        <AssociationConnector Association="PresentationSPPPModel.FK_Lien_Logigram" />
+        <AssociationConnector Association="PresentationSPPPModel.FK_Logigram_Logigram" />
+        <InheritanceConnector EntityType="PresentationSPPPModel.Logigram" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

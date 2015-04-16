@@ -1,0 +1,438 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PresentationSPPPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categorie">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FID_Categorie" Type="bigint" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Auteur" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Extension">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lien">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FID_Logigram" Type="bigint" Nullable="false" />
+          <Property Name="FID_Document" Type="bigint" Nullable="false" />
+          <Property Name="X1" Type="int" Nullable="false" />
+          <Property Name="Y1" Type="int" Nullable="false" />
+          <Property Name="X2" Type="int" Nullable="false" />
+          <Property Name="Y2" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Logigram">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="FID_Next" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Version">
+          <Key>
+            <PropertyRef Name="Numero" />
+            <PropertyRef Name="FID_Document" />
+          </Key>
+          <Property Name="Numero" Type="bigint" Nullable="false" />
+          <Property Name="FID_Document" Type="bigint" Nullable="false" />
+          <Property Name="FID_Extension" Type="bigint" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Document_Categorie">
+          <End Role="Categorie" Type="Self.Categorie" Multiplicity="1" />
+          <End Role="Document" Type="Self.Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorie">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Document">
+              <PropertyRef Name="FID_Categorie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lien_Document">
+          <End Role="Document" Type="Self.Document" Multiplicity="1" />
+          <End Role="Lien" Type="Self.Lien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lien">
+              <PropertyRef Name="FID_Document" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lien_Logigram">
+          <End Role="Logigram" Type="Self.Logigram" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Lien" Type="Self.Lien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Logigram">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lien">
+              <PropertyRef Name="FID_Logigram" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Logigram_Document">
+          <End Role="Document" Type="Self.Document" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Logigram" Type="Self.Logigram" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Logigram">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Logigram_Logigram">
+          <End Role="Logigram" Type="Self.Logigram" Multiplicity="0..1" />
+          <End Role="Logigram1" Type="Self.Logigram" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Logigram">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Logigram1">
+              <PropertyRef Name="FID_Next" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Version_Document">
+          <End Role="Document" Type="Self.Document" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Version" Type="Self.Version" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Version">
+              <PropertyRef Name="FID_Document" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Version_Extension">
+          <End Role="Extension" Type="Self.Extension" Multiplicity="1" />
+          <End Role="Version" Type="Self.Version" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Extension">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Version">
+              <PropertyRef Name="FID_Extension" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PresentationSPPPModelStoreContainer">
+          <EntitySet Name="Categorie" EntityType="Self.Categorie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Extension" EntityType="Self.Extension" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lien" EntityType="Self.Lien" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Logigram" EntityType="Self.Logigram" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Version" EntityType="Self.Version" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Document_Categorie" Association="Self.FK_Document_Categorie">
+            <End Role="Categorie" EntitySet="Categorie" />
+            <End Role="Document" EntitySet="Document" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lien_Document" Association="Self.FK_Lien_Document">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="Lien" EntitySet="Lien" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lien_Logigram" Association="Self.FK_Lien_Logigram">
+            <End Role="Logigram" EntitySet="Logigram" />
+            <End Role="Lien" EntitySet="Lien" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logigram_Document" Association="Self.FK_Logigram_Document">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="Logigram" EntitySet="Logigram" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logigram_Logigram" Association="Self.FK_Logigram_Logigram">
+            <End Role="Logigram" EntitySet="Logigram" />
+            <End Role="Logigram1" EntitySet="Logigram" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Version_Document" Association="Self.FK_Version_Document">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="Version" EntitySet="Version" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Version_Extension" Association="Self.FK_Version_Extension">
+            <End Role="Extension" EntitySet="Extension" />
+            <End Role="Version" EntitySet="Version" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PresentationSPPPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Categorie">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Documents" Relationship="Self.FK_Document_Categorie" FromRole="Categorie" ToRole="Document" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FID_Categorie" Type="Int64" Nullable="false" />
+          <Property Name="Nom" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Auteur" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Categorie" Relationship="Self.FK_Document_Categorie" FromRole="Document" ToRole="Categorie" />
+          <NavigationProperty Name="Versions" Relationship="Self.FK_Version_Document" FromRole="Document" ToRole="Version" />
+          <NavigationProperty Name="References" Relationship="PresentationSPPPModel.FK_Lien_Document" FromRole="Document" ToRole="Lien" />
+        </EntityType>
+        <EntityType Name="Extension">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Versions" Relationship="Self.FK_Version_Extension" FromRole="Extension" ToRole="Version" />
+        </EntityType>
+        <EntityType Name="Version">
+          <Key>
+            <PropertyRef Name="Numero" />
+            <PropertyRef Name="FID_Document" />
+          </Key>
+          <Property Name="Numero" Type="Int64" Nullable="false" />
+          <Property Name="FID_Document" Type="Int64" Nullable="false" />
+          <Property Name="FID_Extension" Type="Int64" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Document" Relationship="Self.FK_Version_Document" FromRole="Version" ToRole="Document" />
+          <NavigationProperty Name="Extension" Relationship="Self.FK_Version_Extension" FromRole="Version" ToRole="Extension" />
+        </EntityType>
+        <Association Name="FK_Document_Categorie">
+          <End Role="Categorie" Type="Self.Categorie" Multiplicity="1" />
+          <End Role="Document" Type="Self.Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorie">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Document">
+              <PropertyRef Name="FID_Categorie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Version_Document">
+          <End Role="Document" Type="Self.Document" Multiplicity="1" />
+          <End Role="Version" Type="Self.Version" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Version">
+              <PropertyRef Name="FID_Document" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Version_Extension">
+          <End Role="Extension" Type="Self.Extension" Multiplicity="1" />
+          <End Role="Version" Type="Self.Version" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Extension">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Version">
+              <PropertyRef Name="FID_Extension" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PresentationSPPPEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Categorie" />
+          <EntitySet Name="Documents" EntityType="Self.Document" />
+          <EntitySet Name="Extensions" EntityType="Self.Extension" />
+          <EntitySet Name="Versions" EntityType="Self.Version" />
+          <AssociationSet Name="FK_Document_Categorie" Association="Self.FK_Document_Categorie">
+            <End Role="Categorie" EntitySet="Categories" />
+            <End Role="Document" EntitySet="Documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Version_Document" Association="Self.FK_Version_Document">
+            <End Role="Document" EntitySet="Documents" />
+            <End Role="Version" EntitySet="Versions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Version_Extension" Association="Self.FK_Version_Extension">
+            <End Role="Extension" EntitySet="Extensions" />
+            <End Role="Version" EntitySet="Versions" />
+          </AssociationSet>
+          <EntitySet Name="Liens" EntityType="PresentationSPPPModel.Lien" />
+          <AssociationSet Name="FK_Lien_Document" Association="PresentationSPPPModel.FK_Lien_Document">
+            <End Role="Document" EntitySet="Documents" />
+            <End Role="Lien" EntitySet="Liens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lien_Logigram" Association="PresentationSPPPModel.FK_Lien_Logigram">
+            <End Role="Logigram" EntitySet="Documents" />
+            <End Role="Lien" EntitySet="Liens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logigram_Logigram" Association="PresentationSPPPModel.FK_Logigram_Logigram">
+            <End Role="Logigram" EntitySet="Documents" />
+            <End Role="Logigram1" EntitySet="Documents" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Lien">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FID_Logigram" Type="Int64" Nullable="false" />
+          <Property Name="FID_Document" Type="Int64" Nullable="false" />
+          <Property Name="X1" Type="Int32" Nullable="false" />
+          <Property Name="Y1" Type="Int32" Nullable="false" />
+          <Property Name="X2" Type="Int32" Nullable="false" />
+          <Property Name="Y2" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Document" Relationship="PresentationSPPPModel.FK_Lien_Document" FromRole="Lien" ToRole="Document" />
+          <NavigationProperty Name="Logigram" Relationship="PresentationSPPPModel.FK_Lien_Logigram" FromRole="Lien" ToRole="Logigram" />
+        </EntityType>
+        <Association Name="FK_Lien_Document">
+          <End Type="PresentationSPPPModel.Document" Role="Document" Multiplicity="1" />
+          <End Type="PresentationSPPPModel.Lien" Role="Lien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lien">
+              <PropertyRef Name="FID_Document" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Logigram" BaseType="PresentationSPPPModel.Document">
+          <Property Name="FID_Next" Type="Int64" />
+          <NavigationProperty Name="Liens" Relationship="PresentationSPPPModel.FK_Lien_Logigram" FromRole="Logigram" ToRole="Lien" />
+          <NavigationProperty Name="Next" Relationship="PresentationSPPPModel.FK_Logigram_Logigram" FromRole="Logigram1" ToRole="Logigram" />
+        </EntityType>
+        <Association Name="FK_Lien_Logigram">
+          <End Type="PresentationSPPPModel.Logigram" Role="Logigram" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PresentationSPPPModel.Lien" Role="Lien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Logigram">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lien">
+              <PropertyRef Name="FID_Logigram" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Logigram_Logigram">
+          <End Type="PresentationSPPPModel.Logigram" Role="Logigram" Multiplicity="0..1" />
+          <End Type="PresentationSPPPModel.Logigram" Role="Logigram1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Logigram">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Logigram1">
+              <PropertyRef Name="FID_Next" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PresentationSPPPModelStoreContainer" CdmEntityContainer="PresentationSPPPEntities">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="PresentationSPPPModel.Categorie">
+              <MappingFragment StoreEntitySet="Categorie">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Documents">
+            <EntityTypeMapping TypeName="IsTypeOf(PresentationSPPPModel.Document)">
+              <MappingFragment StoreEntitySet="Document">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Auteur" ColumnName="Auteur" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="FID_Categorie" ColumnName="FID_Categorie" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(PresentationSPPPModel.Logigram)">
+              <MappingFragment StoreEntitySet="Logigram">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FID_Next" ColumnName="FID_Next" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Extensions">
+            <EntityTypeMapping TypeName="PresentationSPPPModel.Extension">
+              <MappingFragment StoreEntitySet="Extension">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Versions">
+            <EntityTypeMapping TypeName="PresentationSPPPModel.Version">
+              <MappingFragment StoreEntitySet="Version">
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="FID_Document" ColumnName="FID_Document" />
+                <ScalarProperty Name="FID_Extension" ColumnName="FID_Extension" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Liens">
+            <EntityTypeMapping TypeName="PresentationSPPPModel.Lien">
+              <MappingFragment StoreEntitySet="Lien">
+                <ScalarProperty Name="Y2" ColumnName="Y2" />
+                <ScalarProperty Name="X2" ColumnName="X2" />
+                <ScalarProperty Name="Y1" ColumnName="Y1" />
+                <ScalarProperty Name="X1" ColumnName="X1" />
+                <ScalarProperty Name="FID_Document" ColumnName="FID_Document" />
+                <ScalarProperty Name="FID_Logigram" ColumnName="FID_Logigram" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
