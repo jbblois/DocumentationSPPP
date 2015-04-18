@@ -38,13 +38,6 @@ namespace PresentationSPPP.WPF
             this.Show();
         }
 
-        //private void MenuItem_Extensions_Click(object sender, RoutedEventArgs e)
-        //{
-        //    this.Hide();
-        //    new Win_Extensions().ShowDialog();
-        //    this.Show();
-        //}
-
         private void MenuItem_Sauvegarder_Click(object sender, RoutedEventArgs e)
         {
             View.MenuItem_Sauvegarder_Click();

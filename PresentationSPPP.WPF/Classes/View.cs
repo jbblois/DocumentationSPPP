@@ -112,7 +112,6 @@ namespace PresentationSPPP.WPF
             Base.Cancel();
             return true;
         }
-
         public static void Synchroniser()
         {
             _Categories = null;

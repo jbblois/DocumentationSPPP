@@ -45,6 +45,15 @@ namespace PresentationSPPP.WPF
                 ListBox_Liens.Items.Refresh();
             }
         }
+
+        private void TextBoxX_LostFocus(object sender, RoutedEventArgs e)
+        {
+            UC_Liens_View.TextBox_LostFocus(sender, e, 800);
+        }
+        private void TextBoxY_LostFocus(object sender, RoutedEventArgs e)
+        {
+            UC_Liens_View.TextBox_LostFocus(sender, e, 600);
+        }
     }
 
     public class UC_Liens_View : View
@@ -66,6 +75,7 @@ namespace PresentationSPPP.WPF
             }
             else
             {
+                MessageBox.Show(@"Erreur: Veuillez selectionner un logigramme !");
                 return false;
             }
         }
@@ -80,7 +90,27 @@ namespace PresentationSPPP.WPF
             }
             else
             {
+                MessageBox.Show(@"Erreur: Veuillez selectionner un lien à supprimer !");
                 return false;
+            }
+        }
+
+        public static void TextBox_LostFocus(object sender, RoutedEventArgs e, int Max)
+        {
+            TextBox textBox = sender as TextBox;
+            String text = textBox.Text;
+            int value = 0;
+            if (Int32.TryParse(text, out value))
+            {
+                if (value < 0 || value > Max)
+                {
+                    textBox.Text = "0";
+                    MessageBox.Show("Veuillez saisir un entier compris entre 0 et "+Max);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Veuillez saisir un entier");
             }
         }
     }

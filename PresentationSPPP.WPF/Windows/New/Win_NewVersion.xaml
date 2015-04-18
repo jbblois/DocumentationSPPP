@@ -22,7 +22,7 @@
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
             <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Background" Value="SteelBlue"/>
+            <Setter Property="Background" Value="RoyalBlue"/>
             <Setter Property="Foreground" Value="White"/>
         </Style>
     </Window.Resources>

@@ -33,7 +33,6 @@ namespace PresentationSPPP.WPF
         private void Button_AddVersion_Click(object sender, RoutedEventArgs e)
         {
             UC_Versions_View.Button_AddVersion_Click(ListBox_Documents.SelectedItem as Document);
-            ListBox_Versions.Items.Refresh();
         }
 
         private void Button_DownloadFile_Click(object sender, RoutedEventArgs e)
@@ -44,7 +43,6 @@ namespace PresentationSPPP.WPF
         private void Button_DeleteVersion_Click(object sender, RoutedEventArgs e)
         {
             UC_Versions_View.Button_DeleteVersion_Click(ListBox_Versions.SelectedItem as VersionS3P);
-            ListBox_Versions.Items.Refresh();
         }
     }
     public class UC_Versions_View : View
@@ -59,6 +57,7 @@ namespace PresentationSPPP.WPF
             }
             else
             {
+                MessageBox.Show(@"Erreur: Veuillez selectionner un document !");
                 return false;
             }
         }
@@ -78,9 +77,9 @@ namespace PresentationSPPP.WPF
                         MessageBox.Show("OK");
                         return true;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        MessageBox.Show("ERROR");
+                        MessageBox.Show("Erreur:\n"+ex.Message);
                         return false;
                     }
                 }
@@ -91,7 +90,7 @@ namespace PresentationSPPP.WPF
             }
             else
             {
-                MessageBox.Show(@"Erreur: Veuillez selectionner une version à télécharger");
+                MessageBox.Show(@"Erreur: Veuillez selectionner une version à télécharger !");
                 return false;
             }
         }
@@ -115,7 +114,7 @@ namespace PresentationSPPP.WPF
                     catch (Exception ex)
                     {
                         UC_Documents_View.Cancel();
-                        MessageBox.Show("Erreur: " + ex.Message);
+                        MessageBox.Show("Erreur:\n" + ex.Message);
                         return false;
                     }
                 }
@@ -126,7 +125,7 @@ namespace PresentationSPPP.WPF
             }
             else
             {
-                MessageBox.Show(@"Erreur: Veuillez selectionner une version à supprimer");
+                MessageBox.Show(@"Erreur: Veuillez selectionner une version à supprimer !");
                 return false;
             }
         }

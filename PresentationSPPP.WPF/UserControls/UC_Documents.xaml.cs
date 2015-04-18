@@ -75,7 +75,7 @@ namespace PresentationSPPP.WPF
             }
             else
             {
-                MessageBox.Show(@"Erreur: Veuillez selectionner un document à supprimer");
+                MessageBox.Show(@"Erreur: Veuillez selectionner un document à supprimer !");
                 return false;
             }
         }
